@@ -5,13 +5,9 @@ import {
   MdCheckBoxOutlineBlank  as NotCheckedIcon
 } from 'react-icons/md';
 
-const TodoItem = ({ todo, onCheckToggle }) => {
+const TodoItem = ({ todo, onCheckToggle, onInsertToggle, onChangeSeletedTodo }) => {
 
   const { id, text, checked } = todo;
-
-  useEffect(() => {
-    console.log(checked);
-  }, [checked]);
 
   return(
     <TodoItemBox>
@@ -21,7 +17,11 @@ const TodoItem = ({ todo, onCheckToggle }) => {
         : 
           <NotCheckedIcon onClick = {() => onCheckToggle(id)}/> 
         }
-        <div>{text}</div>
+        <Text 
+          onClick = {() => {onInsertToggle(); onChangeSeletedTodo(todo);}}
+        >
+          {text}
+        </Text>
       </Content>
     </TodoItemBox>
   );
@@ -65,6 +65,10 @@ const Content = styled.div`
       `;
     }}
   }
+`;
+
+const Text = styled.div`
+
 `;
 
 export default TodoItem;

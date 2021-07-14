@@ -2,8 +2,12 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { MdAddCircle as CircleIcon } from 'react-icons/md';
+import { 
+  TiTrash as TrashIcon,
+  TiPencil as PencilIcon 
+} from 'react-icons/ti';
 
-const TodoInsert = ({ onInsertToggle, onInsertTodo }) => {
+const TodoInsert = ({ onInsertToggle, onInsertTodo, selectedTodo, onRemove, onUpdate }) => {
 
   const [value, setValue] = useState('');
 
@@ -18,18 +22,37 @@ const TodoInsert = ({ onInsertToggle, onInsertTodo }) => {
     onInsertToggle();
   }
 
+  useEffect(() => {
+    if ( selectedTodo ) {
+      setValue(selectedTodo.text);
+    }
+  }, [selectedTodo]);
+
   return(
     <>
       <Background>
-        <FormBox onSubmit = {onSubmit}>
+        <FormBox onSubmit = {selectedTodo ? () => {onUpdate(selectedTodo.id, value)} : onSubmit}>
           <input 
             placeholder = 'please type' 
             value = {value} 
             onChange = {onChange}
           ></input>
-          <button type = 'submit' >
-            <CircleIcon/>
-          </button>
+          {selectedTodo ? 
+            <Rewrite>
+              <PencilIcon 
+                onClick = {() => onUpdate(selectedTodo.id, value)} 
+                size = '30'
+              />
+              <TrashIcon 
+                onClick = {() => onRemove(selectedTodo.id)} 
+                size = '30'
+              />
+            </Rewrite>
+          : 
+            <button type = 'submit' >
+              <CircleIcon/>
+            </button>
+          }
         </FormBox>
       </Background>
     </>
@@ -89,6 +112,14 @@ const FormBox = styled.form`
     align-items : center;
     cursor : pointer;
     transition : 0.1s background ease-in;
+  }
+`;
+
+const Rewrite = styled.div`
+  & > svg {
+    padding : 20px 1rem 0 1rem;
+    color : #f67280;
+    font-size : 1.5rem;
   }
 `;
 

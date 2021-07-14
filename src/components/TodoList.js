@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import TodoItem from './TodoItem';
 import styled from 'styled-components';
 
-const TodoList = ({ todos, onCheckToggle }) => {
+const TodoList = ({ todos, onCheckToggle, onInsertToggle, onChangeSeletedTodo }) => {
   
   return(
     <TodoListBox>
@@ -11,6 +11,8 @@ const TodoList = ({ todos, onCheckToggle }) => {
           key = {todo.id}
           todo = {todo}
           onCheckToggle = {onCheckToggle}
+          onInsertToggle = {onInsertToggle}
+          onChangeSeletedTodo = {onChangeSeletedTodo}
         />
       ))}
     </TodoListBox>
